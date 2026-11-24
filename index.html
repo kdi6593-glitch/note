@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>&#48372;&#54744; 상담 전 &#47928;&#51652;표</title>
+<style>
+  :root { --navy:#1f3864; --ink:#16202e; --mute:#6b7685; --line:#dfe4ea; --bg:#f4f6f9; --ok:#1d7a4f; --red:#c8102e; --pick:#e8eef9; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic","Noto Sans KR",sans-serif; font-size:16px; line-height:1.55; }
+  header { background:var(--navy); color:#fff; padding:22px 20px 18px; }
+  header .eye { font-size:13px; opacity:.8; letter-spacing:.02em; }
+  header h1 { margin:4px 0 8px; font-size:23px; line-height:1.3; }
+  header p { margin:0; font-size:14.5px; opacity:.92; }
+  .bar { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line); padding:9px 20px; font-size:13px; color:var(--mute); display:flex; align-items:center; gap:10px; }
+  .bar .track { flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden; }
+  .bar .fill { height:100%; width:0; background:var(--navy); transition:width .2s; }
+  main { max-width:640px; margin:0 auto; padding:14px 14px 40px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 6px; margin:0 0 14px; }
+  section > h2 { margin:0 0 4px; font-size:17px; color:var(--navy); }
+  section > .lead { margin:0 0 10px; font-size:13.5px; color:var(--mute); }
+  .q { padding:14px 0; border-top:1px solid var(--line); }
+  .q:first-of-type { border-top:0; }
+  .q .t { font-weight:700; font-size:16px; }
+  .q .h { font-size:13px; color:var(--mute); margin-top:2px; }
+  .opts { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .opts button { appearance:none; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:10px; padding:11px 14px; font-size:15.5px; font-family:inherit; min-height:46px; cursor:pointer; }
+  .opts button[aria-pressed="true"] { border-color:var(--navy); background:var(--pick); color:var(--navy); font-weight:700; }
+  .opts button .n { display:inline-block; min-width:20px; height:20px; line-height:20px; border-radius:10px; background:var(--navy); color:#fff; font-size:12px; text-align:center; margin-right:6px; }
+  input[type=text], input[type=tel], textarea { width:100%; border:1.5px solid var(--line); border-radius:10px; padding:12px 13px; font-size:16px; font-family:inherit; margin-top:10px; background:#fff; color:var(--ink); }
+  input:focus, textarea:focus { outline:none; border-color:var(--navy); }
+  textarea { min-height:84px; resize:vertical; }
+  .row2 { display:flex; gap:8px; } .row2 > * { flex:1; min-width:0; }
+  .more { margin-top:10px; padding:12px; background:var(--bg); border-radius:10px; }
+  .more .l { font-size:13px; color:var(--mute); margin-bottom:-4px; }
+  .agree { display:flex; gap:10px; align-items:flex-start; padding:14px 0 12px; font-size:14.5px; }
+  .agree input { width:22px; height:22px; margin:1px 0 0; flex:0 0 auto; accent-color:var(--navy); }
+  .send { display:block; width:100%; border:0; border-radius:12px; padding:16px; font-size:17px; font-weight:800; font-family:inherit; color:#fff; background:var(--navy); margin:0 0 10px; min-height:56px; cursor:pointer; }
+  .send.alt { background:#fff; color:var(--navy); border:1.5px solid var(--navy); }
+  .send:disabled { opacity:.4; }
+  .note { font-size:12.5px; color:var(--mute); margin:6px 2px 14px; }
+  .warn { color:var(--red); font-size:13.5px; font-weight:700; margin:0 0 10px; display:none; }
+  pre { white-space:pre-wrap; word-break:break-all; background:var(--bg); border-radius:10px; padding:12px; font-size:13px; font-family:inherit; max-height:220px; overflow:auto; margin:0 0 12px; display:none; }
+  .done { display:none; color:var(--ok); font-weight:700; font-size:14.5px; margin:0 0 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="eye">&#48372;&#54744; 상담 전 &#47928;&#51652;표</div>
+  <h1>상담 전에 먼저 여쭙니다</h1>
+  <p>3분이면 됩니다. 눌러서 고르시고, 마지막에 <b>문자로 보내기</b>를 누르시면 담당 &#49444;&#44228;&#49324;에게 전달됩니다.</p>
+</header>
+<div class="bar"><span id="cnt">0 / 22</span><div class="track"><div class="fill" id="fill"></div></div></div>
+<main id="app"></main>
+
+<script>
+/* 설정 — 답을 받을 번호와 담당자 이름은 주소 뒤의 ?t=번호&n=이름 에서 읽는다(페이지에는 적지 않는다). 이 페이지는 답을 어디에도 저장하거나 전송하지 않고, 고객 휴대폰의 문자 앱으로만 넘긴다. */
+var CONFIG = (function () {
+  var q = {}; try { (typeof location !== 'undefined' ? location.search : '').replace(/^\?/, '').split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1).replace(/\+/g, ' ')); }); } catch (e) {}
+  return { 받는번호: (q.t || '').replace(/[^0-9]/g, '').slice(0, 11), 담당: (q.n || '').replace(/[<>&"']/g, '').slice(0, 10) };
+})();
+
+var 적기 = [['병명', '병명 · 무슨 일로'], ['언제', '언제 (예: 2023년 5월)'], ['어디', '병원'], ['치료', '어떤 치료 (수술 · 시술 · 약)'], ['지금', '지금은 (완치 · 치료 중)']];
+var FORM = [
+  { 제목: '기본 사항', 문항: [
+    { id: '성함', 짧: '성함', t: '성함', 종류: 'text', 안셈: true },
+    { id: '생년월일', 짧: '생년월일', t: '생년월일', 종류: 'tel', 자리: '예: 700315', 안셈: true },
+    { id: 'q1', 짧: '1 일', t: '1. 지금 하시는 일', h: '구체적으로 적어 주세요 (예: 미용사, 식당 주방)', 종류: 'text', 고름: ['사무', '서서 · 손으로 하는 일', '운전 · 현장', '주부 · 무직'] },
+    { id: 'q2', 짧: '2 운전', t: '2. 운전하시나요?', 종류: 'multi', 고름: ['안 함', '자가용', '영업용', '오토바이', '전동킥보드'], 혼자: ['안 함'] },
+    { id: 'q3', 짧: '3 키·몸무게·흡연', t: '3. 키 · 몸무게 · 흡연', 종류: 'pair', 칸: [['키', '키 (cm)'], ['몸무게', '몸무게 (kg)']], 고름: ['비흡연', '흡연', '끊은 지 1년 이상'] },
+    { id: 'q4', 짧: '4 가족', t: '4. 함께 생계를 꾸리는 가족', 종류: 'multi', 고름: ['배우자', '부양하는 자녀', '부양하는 부모', '없음'], 혼자: ['없음'] },
+    { id: 'q5', 짧: '5 은퇴', t: '5. 일을 그만두실 예정 나이', h: '그 뒤에도 낼 수 있는 \ubcf4\ud5d8료로 맞춰 드립니다', 종류: 'pair', 칸: [['나이', '몇 세쯤'], ['\ubcf4\ud5d8료', '그 뒤 월 \ubcf4\ud5d8료 (만원)']] }
+  ]},
+  { 제목: '건강', 도움: '「크게 아픈 적 없다」 하셔도 하나씩 봐 주세요. 수술 · 시술 · 레이저 · 용종 제거는 병으로 여기지 않고 지나치기 쉽습니다.', 문항: [
+    { id: 'q6', 짧: '6 최근3개월', t: '6. 최근 3개월 안에 병원에서 진찰 · 검사를 받고 진단, 의심 소견, 치료, 입원, 수술, 약 처방을 받으신 적', 종류: 'yn', 적기: 적기 },
+    { id: 'q7', 짧: '7 복용약', t: '7. 지금 꾸준히 드시는 약', 종류: 'multi', 고름: ['없음', '혈압', '고지혈', '당뇨', '갑상선', '수면제 · 안정제', '진통제', '그 밖'], 혼자: ['없음'], 덧: '언제부터 · 그 밖의 약 이름' },
+    { id: 'q8', 짧: '8 1년재검', t: '8. 최근 1년 안에 건강검진이나 진찰 뒤 재검사 · 추가검사를 권유받으신 적', 종류: 'yn', 적기: [['무엇', '무엇을'], ['결과', '결과']] },
+    { id: 'q9', 짧: '9 5년입원수술', t: '9. 최근 5년 안에 입원, 수술, 같은 병으로 7일 이상 통원, 30일 이상 약 처방을 받으신 적', h: '수술에는 제왕절개, 시술, 레이저, 내시경 중 떼어낸 것도 들어갑니다', 종류: 'yn', 적기: 적기, 여러: true },
+    { id: 'q10', 짧: '10 주요질병', t: '10. 최근 5년 안에 아래 병으로 진단 · 치료를 받으신 적', 종류: 'multi', 고름: ['없음', '암', '고혈압', '당뇨', '협심증 · 심근경색', '뇌졸중', '심장판막', '간경화', '그 밖'], 혼자: ['없음'], 덧: '병명과 시기' },
+    { id: 'q11', 짧: '11 빠뜨리기쉬운것', t: '11. 자주 빠뜨리는 것 — 해당하는 것을 모두 눌러 주세요', 종류: 'multi', 고름: ['없음', '대장 · 위 용종 제거', '백내장 · 눈 레이저', '자궁근종 · 유방 결절', '갑상선 결절', '치질 · 하지정맥', '디스크 · 관절 시술', '도수 · 물리치료 7회 이상', '한의원 장기 치료', '정신건강의학과 상담 · 약', '임신 중'], 혼자: ['없음'], 덧: '언제, 어느 병원에서였는지' },
+    { id: 'q12', 짧: '12 5~10년', t: '12. 5년 ~ 10년 전 사이에 입원이나 수술을 하신 적', 종류: 'yn', 적기: [['병명', '병명 · 시기']] },
+    { id: 'q13', 짧: '13 가족력', t: '13. 부모 · 형제 가운데 앓으신 병', 종류: 'multi', 고름: ['없음', '암', '뇌졸중', '심장병', '치매', '당뇨'], 혼자: ['없음'], 덧: '누가, 몇 세에' }
+  ]},
+  { 제목: '지금 가지고 계신 \ubcf4\ud5d8', 문항: [
+    { id: 'q14', 짧: '14 최근3년가입', t: '14. 최근 3년 안에 가입하신 \ubcf4\ud5d8', 종류: 'yn', 적기: [['\ubcf4\ud5d8', '어느 회사 · 언제']], 뒤고름: { 짧: '가입때 건강이력', t: '가입하실 때 건강 이력은', 고름: ['청약서에 적음', '말로만 알림', '모름'] } },
+    { id: 'q15', 짧: '15 회사가든\ubcf4\ud5d8', t: '15. 회사(직장)에서 대신 들어 준 \ubcf4\ud5d8', 종류: 'yn', 적기: [['내용', '어떤 \ubcf4\ud5d8인지']] },
+    { id: 'q16', 짧: '16 병원횟수', t: '16. 병원에 가시는 횟수', 종류: 'pair', 칸: [['횟수', '한 해에 몇 번쯤']], 고름: ['실손 청구 자주', '가끔', '거의 안 함'] },
+    { id: 'q17', 짧: '17 \ubcf4\ud5d8금받은일', t: '17. 최근 5년 안에 \ubcf4\ud5d8금을 받으신 일', 종류: 'yn', 적기: [['내용', '무슨 일로 · 언제']] },
+    { id: 'q18', 짧: '18 불편한점', t: '18. 지금 \ubcf4\ud5d8에서 불편하신 점', 종류: 'multi', 고름: ['\ubcf4\ud5d8료가 부담', '무엇이 들었는지 모름', '\uac31\uc2e0 때 오름', '받아 본 적이 없음', '없음'], 혼자: ['없음'] }
+  ]},
+  { 제목: '바라시는 것', 문항: [
+    { id: 'q19', 짧: '19 걱정순위', t: '19. 가장 걱정되시는 것 — 걱정되는 순서대로 3개까지 눌러 주세요', 종류: 'rank', 고름: ['암', '뇌 · 심장', '수술 · 입원', '간병 · 치매', '사망 뒤 가족', '운전 사고'], 최대: 3 },
+    { id: 'q20', 짧: '20 사망보장', t: '20. 사망했을 때 가족에게 남길 돈이 필요하신가요?', 종류: 'single', 고름: ['꼭 필요', '조금이면 됨', '필요 없음'] },
+    { id: 'q21', 짧: '21 치과', t: '21. 치과 치료 계획', 종류: 'single', 고름: ['없음', '임플란트 · 보철 예정', '모르겠음'] },
+    { id: 'q22', 짧: '22 바라는것', t: '22. 이번 상담에서 바라시는 것', 종류: 'multi', 고름: ['\ubcf4\ud5d8료 줄이기', '빈 곳 채우기', '지금 \ubcf4\ud5d8 점검만'] },
+    { id: '하실말', 짧: '하실 말씀', t: '더 하실 말씀', 종류: 'area', 안셈: true }
+  ]}
+];
+
+var 답 = {};
+
+function 글만들기(답, FORM) {
+  var 줄 = ['[\ubcf4\ud5d8 상담 \ubb38\uc9c4]'];
+  function 붙(k, v) { if (v !== undefined && v !== null && String(v).trim() !== '') 줄.push(k + ': ' + String(v).trim()); }
+  FORM.forEach(function (묶) { 묶.문항.forEach(function (q) {
+    var a = 답[q.id]; if (!a) return;
+    var 조각 = [];
+    if (a.글) 조각.push(a.글);
+    if (a.칸) Object.keys(a.칸).forEach(function (k) { if (a.칸[k]) 조각.push(k + ' ' + a.칸[k]); });
+    if (a.고름 && a.고름.length) 조각.push(a.고름.join(', '));
+    if (a.yn) 조각.push(a.yn);
+    if (a.yn === '있음' && a.적기) { var d = []; Object.keys(a.적기).forEach(function (k) { if (a.적기[k]) d.push(k + ' ' + a.적기[k]); }); if (d.length) 조각.push('(' + d.join(' / ') + ')'); }
+    if (a.덧) 조각.push('- ' + a.덧);
+    if (a.뒤 && a.yn === '있음') 조각.push('[' + q.뒤고름.짧 + ' ' + a.뒤 + ']');
+    if (조각.length) 붙(q.짧, 조각.join(' '));
+  }); });
+  return 줄.join('\n');
+}
+function 센답(답, FORM) {
+  var n = 0, 전 = 0;
+  FORM.forEach(function (묶) { 묶.문항.forEach(function (q) {
+    if (q.안셈) return; 전++;
+    var a = 답[q.id]; if (!a) return;
+    var 칸있 = a.칸 && Object.keys(a.칸).some(function (k) { return a.칸[k]; });
+    if (a.글 || a.yn || (a.고름 && a.고름.length) || 칸있) n++;
+  }); });
+  return [n, 전];
+}
+function 문자주소(번호, 글, ua) {
+  var 사과 = /iPhone|iPad|iPod|Macintosh/.test(ua || '');
+  return 'sms:' + 번호 + (사과 ? '&' : '?') + 'body=' + encodeURIComponent(글);
+}
+
+if (typeof document !== 'undefined') (function () {
+  var app = document.getElementById('app');
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
+  function \uac31\uc2e0() { var c = 센답(답, FORM); document.getElementById('cnt').textContent = c[0] + ' / ' + c[1]; document.getElementById('fill').style.width = (c[0] / c[1] * 100) + '%'; 미리(); }
+  function 입력(자리, 받기, 종류) { var i = el(종류 === 'area' ? 'textarea' : 'input'); if (종류 !== 'area') i.type = 종류 === 'tel' ? 'tel' : 'text'; i.placeholder = 자리 || ''; i.setAttribute('autocomplete', 'off'); i.addEventListener('input', function () { 받기(i.value); \uac31\uc2e0(); }); return i; }
+  function 단추들(q, a, 방식, 뒤에) {
+    var 상자 = el('div', 'opts');
+    q.고름.forEach(function (o) {
+      var bt = el('button', '', o); bt.type = 'button'; bt.setAttribute('aria-pressed', 'false');
+      bt.addEventListener('click', function () {
+        var L = a.고름 || (a.고름 = []), i = L.indexOf(o);
+        if (방식 === 'single') { a.고름 = i >= 0 ? [] : [o]; }
+        else if (i >= 0) { L.splice(i, 1); }
+        else {
+          if (q.혼자 && q.혼자.indexOf(o) >= 0) a.고름 = [o];
+          else { if (q.혼자) a.고름 = L.filter(function (x) { return q.혼자.indexOf(x) < 0; }); if (방식 === 'rank' && a.고름.length >= q.최대) return; a.고름.push(o); }
+        }
+        그림(); if (뒤에) 뒤에(); \uac31\uc2e0();
+      });
+      상자.appendChild(bt);
+    });
+    function 그림() { Array.prototype.forEach.call(상자.children, function (bt, k) { var o = q.고름[k], i = (a.고름 || []).indexOf(o); bt.setAttribute('aria-pressed', i >= 0 ? 'true' : 'false'); bt.innerHTML = (방식 === 'rank' && i >= 0 ? '<span class="n">' + (i + 1) + '</span>' : '') + o; }); }
+    return 상자;
+  }
+  FORM.forEach(function (묶, si) {
+    var sec = el('section'); sec.appendChild(el('h2', '', (si + 1) + '. ' + 묶.제목)); if (묶.도움) sec.appendChild(el('p', 'lead', 묶.도움));
+    묶.문항.forEach(function (q) {
+      var a = 답[q.id] = {}, box = el('div', 'q'); box.appendChild(el('div', 't', q.t)); if (q.h) box.appendChild(el('div', 'h', q.h));
+      if (q.종류 === 'text' || q.종류 === 'tel' || q.종류 === 'area') { box.appendChild(입력(q.자리, function (v) { a.글 = v; }, q.종류)); if (q.고름) box.appendChild(단추들(q, a, 'single')); }
+      else if (q.종류 === 'single' || q.종류 === 'multi' || q.종류 === 'rank') {
+        var 덧칸 = null;
+        if (q.덧) { 덧칸 = el('div', 'more'); 덧칸.style.display = 'none'; 덧칸.appendChild(el('div', 'l', q.덧)); 덧칸.appendChild(입력('', function (v) { a.덧 = v; }, 'text')); }
+        box.appendChild(단추들(q, a, q.종류, function () { if (덧칸) { var 켬 = (a.고름 || []).some(function (x) { return !q.혼자 || q.혼자.indexOf(x) < 0; }); 덧칸.style.display = 켬 ? 'block' : 'none'; if (!켬) a.덧 = ''; } }));
+        if (덧칸) box.appendChild(덧칸);
+      }
+      else if (q.종류 === 'pair') { a.칸 = {}; var r = el('div', 'row2'); q.칸.forEach(function (c) { r.appendChild(입력(c[1], function (v) { a.칸[c[0]] = v; }, 'tel')); }); box.appendChild(r); if (q.고름) box.appendChild(단추들(q, a, 'single')); }
+      else if (q.종류 === 'yn') {
+        var more = el('div', 'more'); more.style.display = 'none'; a.적기 = {};
+        q.적기.forEach(function (c) { more.appendChild(입력(c[1], function (v) { a.적기[c[0]] = v; }, 'text')); });
+        if (q.여러) more.appendChild(el('div', 'h', '여러 번이면 한 칸에 이어서 적어 주세요'));
+        if (q.뒤고름) { more.appendChild(el('div', 'l', q.뒤고름.t)); var b2 = { }; more.appendChild(단추들({ 고름: q.뒤고름.고름 }, b2, 'single', function () { a.뒤 = (b2.고름 || [])[0] || ''; })); }
+        var yn = el('div', 'opts');
+        ['없음', '있음'].forEach(function (o) { var bt = el('button', '', o); bt.type = 'button'; bt.setAttribute('aria-pressed', 'false'); bt.addEventListener('click', function () { a.yn = a.yn === o ? '' : o; Array.prototype.forEach.call(yn.children, function (x) { x.setAttribute('aria-pressed', x.textContent === a.yn ? 'true' : 'false'); }); more.style.display = a.yn === '있음' ? 'block' : 'none'; \uac31\uc2e0(); }); yn.appendChild(bt); });
+        box.appendChild(yn); box.appendChild(more);
+      }
+      sec.appendChild(box);
+    });
+    app.appendChild(sec);
+  });
+  var end = el('section');
+  end.appendChild(el('h2', '', '보내기'));
+  var ag = el('label', 'agree'); var ck = el('input'); ck.type = 'checkbox'; ag.appendChild(ck);
+  ag.appendChild(el('span', '', '위에 적은 건강 정보를 <b>\ubcf4\ud5d8 상담과 심사 확인</b>을 위해 담당 \uc124\uacc4\uc0ac' + (CONFIG.담당 ? '(' + CONFIG.담당 + ')' : '') + '에게 보내는 데 동의합니다.'));
+  end.appendChild(ag);
+  var warn = el('p', 'warn', ''); end.appendChild(warn);
+  var pre = el('pre'); end.appendChild(pre);
+  var done = el('p', 'done', '복사했습니다. 문자나 카카오톡에 붙여 넣어 보내 주세요.'); end.appendChild(done);
+  var b1 = el('button', 'send', '문자로 보내기'); b1.type = 'button';
+  var b2 = el('button', 'send alt', '내용 복사하기'); b2.type = 'button';
+  end.appendChild(b1); end.appendChild(b2);
+  end.appendChild(el('p', 'note', '「문자로 보내기」를 누르면 휴대폰의 문자 화면이 열리고 내용이 채워집니다. 확인하신 뒤 전송을 눌러 주세요. 이 화면은 적으신 내용을 따로 저장하지 않습니다.'));
+  app.appendChild(end);
+  function 미리() { pre.textContent = 글만들기(답, FORM); }
+  function 확인() {
+    if (!(답['성함'].글 || '').trim()) { warn.textContent = '맨 위에 성함을 적어 주세요.'; warn.style.display = 'block'; return false; }
+    if (!ck.checked) { warn.textContent = '동의에 체크해 주세요.'; warn.style.display = 'block'; return false; }
+    warn.style.display = 'none'; pre.style.display = 'block'; return true;
+  }
+  b1.addEventListener('click', function () { if (!확인()) return; location.href = 문자주소(CONFIG.받는번호, 글만들기(답, FORM), navigator.userAgent); });
+  b2.addEventListener('click', function () {
+    if (!확인()) return; var t = 글만들기(답, FORM);
+    function 끝() { done.style.display = 'block'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(끝, 옛);
+    else 옛();
+    function 옛() { var ta = el('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); 끝(); } catch (e) {} document.body.removeChild(ta); }
+  });
+  \uac31\uc2e0();
+})();
+if (typeof module !== 'undefined') module.exports = { FORM: FORM, 글만들기: 글만들기, 센답: 센답, 문자주소: 문자주소 };
+</script>
+</body>
+</html>

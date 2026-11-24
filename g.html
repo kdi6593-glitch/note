@@ -82,6 +82,13 @@ function 풀기압축(해시) {
   var st = new Blob([바이트(해시.replace(/^#z\./, ''))]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
   return new Response(st).text().then(function (t) { return 손질(JSON.parse(t)); });
 }
+/* 짧은 링크: 서버에는 암호문만 있고, 푸는 열쇠는 주소의 # 뒤에만 있다(# 뒤는 서버로 가지 않는다). */
+function 풀기암호(이름, 열쇠) {
+  return fetch('d/' + 이름, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw 0; return r.arrayBuffer(); }).then(function (buf) {
+    var b = new Uint8Array(buf);
+    return crypto.subtle.importKey('raw', 바이트(열쇠), 'AES-GCM', false, ['decrypt']).then(function (k) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, k, b.slice(12)); });
+  }).then(function (pt) { return 손질(JSON.parse(new TextDecoder('utf-8').decode(pt))); });
+}
 function 손질(d, 번호) {
   if (!d || !Array.isArray(d.i)) return null;
   return { 번호: String(번호 || d.t || '').replace(/[^0-9]/g, '').slice(0, 11),
@@ -104,9 +111,12 @@ function 문자주소(번호, 글, ua) { return 'sms:' + 번호 + (/iPhone|iPad|
 function 안전(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
 if (typeof document !== 'undefined') (function () {
-  var app = document.getElementById('app'), D = 풀기(location.hash), 답 = [], 하실말 = '';
+  var app = document.getElementById('app'), D = /[?&]d=/.test(location.search) ? null : 풀기(location.hash), 답 = [], 하실말 = '';
   function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
-  if (/^#z\./.test(location.hash)) {
+  var 잠금 = /[?&]d=([A-Za-z0-9]{4,20})(&|$)/.exec(location.search);
+  if (잠금) {
+    풀기암호(잠금[1], location.hash.replace(/^#/, '')).then(function (d) { D = d; 그리기(); }).catch(function () { D = null; 그리기(); });
+  } else if (/^#z\./.test(location.hash)) {
     if (typeof DecompressionStream !== 'function') 그리기();
     else 풀기압축(location.hash).then(function (d) { D = d; 그리기(); }).catch(function () { D = null; 그리기(); });
   } else 그리기();

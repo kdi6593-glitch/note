@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>&#44081;&#49888;형 &#48372;&#54744;, 어떻게 하고 싶으세요?</title>
+<title>내 &#48372;&#54744;, 이렇게 해 보면 어떨까요?</title>
 <style>
   :root { --navy:#1f3864; --ink:#16202e; --mute:#6b7685; --line:#dfe4ea; --bg:#f4f6f9; --ok:#1d7a4f; --red:#c8102e; --pick:#e8eef9; }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -14,25 +14,29 @@
   header .eye { font-size:13px; opacity:.8; }
   header h1 { margin:4px 0 8px; font-size:22px; line-height:1.35; }
   header p { margin:0; font-size:14.5px; opacity:.92; }
-  .bar { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line); padding:9px 20px; font-size:13px; color:var(--mute); display:flex; align-items:center; gap:10px; }
-  .bar .track { flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden; }
-  .bar .fill { height:100%; width:0; background:var(--navy); transition:width .2s; }
+  .bar { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line); padding:10px 20px 9px; box-shadow:0 2px 8px rgba(20,30,50,.06); }
+  .bar .r { display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:14px; color:var(--mute); }
+  .bar .r b { color:var(--ink); font-size:16px; }
+  .bar .r.big b { color:var(--ok); font-size:21px; font-weight:800; transition:color .2s; }
+  .bar .r.big span { color:var(--ink); font-weight:700; }
+  .bar .sub { font-size:12.5px; color:var(--mute); margin-top:3px; }
+  .bar .sub b { color:var(--ink); }
   main { max-width:640px; margin:0 auto; padding:14px 14px 40px; }
   section { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px; margin:0 0 14px; }
-  .sum { font-size:14.5px; } .sum b { font-size:19px; color:var(--navy); }
   .co { font-size:13px; color:var(--mute); }
   .nm { font-weight:800; font-size:17px; line-height:1.35; margin:1px 0 8px; }
   .fact { display:flex; justify-content:space-between; gap:12px; font-size:14.5px; padding:6px 0; border-top:1px solid var(--line); }
   .fact span:first-child { color:var(--mute); flex:0 0 auto; } .fact span:last-child { text-align:right; font-weight:600; }
   .fact .big { font-size:17px; font-weight:800; color:var(--navy); }
   .memo { margin-top:10px; padding:12px 13px; background:#fbf8ef; border:1px solid #eadfbd; border-radius:10px; font-size:14px; line-height:1.6; }
-  .memo .who { font-size:12.5px; color:var(--mute); margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+  .memo .who { font-size:12.5px; color:var(--mute); margin-bottom:4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .chip { display:inline-block; padding:2px 9px; border-radius:20px; font-size:12.5px; font-weight:800; }
   .chip.r { background:#fbe4e4; color:#c00000; } .chip.g { background:#e2efda; color:#375623; } .chip.y { background:#fff2cc; color:#7f6000; }
   .ask { font-weight:700; margin:14px 0 0; }
+  .ask2 { font-weight:700; font-size:14.5px; margin:14px 0 0; color:var(--ink); }
   .opts { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-  .opts button { appearance:none; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:10px; padding:11px 14px; font-size:15.5px; font-family:inherit; min-height:46px; cursor:pointer; }
-  .opts.wide button { flex:1 1 100%; text-align:left; }
+  .opts button { appearance:none; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:10px; padding:11px 14px; font-size:15.5px; font-family:inherit; min-height:46px; cursor:pointer; text-align:left; }
+  .opts.wide button { flex:1 1 100%; }
   .opts button[aria-pressed="true"] { border-color:var(--navy); background:var(--pick); color:var(--navy); font-weight:700; }
   .more { margin-top:10px; padding:12px; background:var(--bg); border-radius:10px; display:none; }
   .more .l { font-size:13.5px; font-weight:700; }
@@ -46,84 +50,91 @@
   pre { white-space:pre-wrap; word-break:break-all; background:var(--bg); border-radius:10px; padding:12px; font-size:13px; font-family:inherit; max-height:220px; overflow:auto; margin:0 0 12px; display:none; }
   .done { display:none; color:var(--ok); font-weight:700; font-size:14.5px; margin:0 0 12px; }
   .empty { text-align:center; color:var(--mute); padding:30px 10px; }
-  .img .bar, .img .opts, .img .more, .img .ask { display:none !important; }
+  .img .opts, .img .more, .img .ask, .img .ask2, .img .fill2 { display:none !important; }
 </style>
 </head>
 <body>
 <header>
   <div class="eye">&#48372;&#54744; 점검</div>
-  <h1>&#44081;&#49888;형 &#48372;&#54744;, 어떻게 하고 싶으세요?</h1>
-  <p>지금 내고 계신 &#48372;&#54744; 가운데 <b>&#44081;&#49888; 때마다 &#48372;&#54744;료가 다시 정해지는 것</b>만 모았습니다. 하나씩 보시고 생각을 눌러 주세요. 제 의견과 달라도 괜찮습니다.</p>
+  <h1>내 &#48372;&#54744;, 이렇게 해 보면 어떨까요?</h1>
+  <p>살펴본 결과를 하나씩 정리했습니다. 보시고 생각을 눌러 주세요. <b>누르시는 대로 위의 금액이 바뀝니다.</b> 제 의견과 달라도 괜찮습니다.</p>
 </header>
-<div class="bar"><span id="cnt">0 / 0</span><div class="track"><div class="fill" id="fill"></div></div></div>
+<div class="bar" id="bar"></div>
 <main id="app"></main>
 
 <script>
-/* 이 페이지에는 고객 정보가 없다. \ubcf4\ud5d8 목록과 답을 받을 번호는 주소의 # 뒤에 담겨 오고(#은 서버로 전송되지 않는다),
-   답은 고객 휴대폰의 문자 앱으로만 넘긴다. 아무 것도 저장하지 않는다. */
+/* 이 페이지에는 고객 정보가 없다. \ubcf4\ud5d8 목록은 (가) 주소의 # 뒤에 담겨 오거나 (나) 잠긴 파일로 오고 열쇠만 # 뒤에 있다.
+   # 뒤는 서버로 전송되지 않는다. 답은 고객 휴대폰의 문자 앱으로만 넘기고 아무 것도 저장하지 않는다.
+   자료: { t: 답 받을 번호, s: [지금 매달 내는 총액, 은퇴 뒤 금액, '64세'], f: [채울 곳 단추들],
+          i: [[회사, 상품, 월\ubcf4\ud5d8료, 받는 보장, \uac31\uc2e0 안내, 의견, 판정, 표시]] }   표시: b = 새 보장으로 바꾸는 것 · r = 은퇴 뒤에도 내는 돈 · n = 최근 가입 */
 var 선택지 = ['계속 유지하고 싶어요', '정리하고 싶어요', '잘 모르겠어요 · 설명이 필요해요'];
 var 짧은선택 = ['계속 유지', '정리', '모르겠음 · 설명 필요'];
 var 유지이유 = ['이 보장이 꼭 필요해서', '가입한 지 얼마 안 돼서', '아는 분께 가입해서', '곧 쓸 일이 있어서', '없으면 불안해서'];
+var 가입경위 = ['아는 분 권유로', '전화 · 홈쇼핑을 보고', '직접 알아봐서', '기억이 안 나요'];
+var 기본채울곳 = ['뇌 · 심장에 병이 생겼을 때 받는 돈', '수술받을 때 받는 돈', '기억이 흐려지거나 오래 돌봄이 필요할 때', '그냥 \ubcf4\ud5d8료를 줄이는 게 좋아요'];
+var 예산 = ['3만원쯤', '5만원쯤', '10만원쯤', '줄인 만큼은 괜찮아요', '잘 모르겠어요'];
 
-function 풀기(해시) {
-  try {
-    var s = (해시 || '').replace(/^#/, ''); if (!s) return null;
-    s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '=';
-    var bin = (typeof atob === 'function') ? atob(s) : Buffer.from(s, 'base64').toString('binary');
-    var bytes = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return 손질(JSON.parse(new TextDecoder('utf-8').decode(bytes)));
-  } catch (e) { return null; }
-}
 function 바이트(s) {
   s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '=';
-  var bin = atob(s), b = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i); return b;
+  var bin = (typeof atob === 'function') ? atob(s) : Buffer.from(s, 'base64').toString('binary');
+  var b = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i); return b;
 }
+function 손질(d) {
+  if (!d || !Array.isArray(d.i)) return null;
+  var s = Array.isArray(d.s) ? d.s : [];
+  return { 번호: String(d.t || '').replace(/[^0-9]/g, '').slice(0, 11), 총: parseInt(s[0], 10) || 0, 은퇴뒤: parseInt(s[1], 10) || 0, 은퇴나이: String(s[2] || ''),
+           채울곳: Array.isArray(d.f) && d.f.length ? d.f.slice(0, 6).map(String) : 기본채울곳,
+           목록: d.i.slice(0, 20).map(function (x) { var f = String(x[7] || ''); return { 회사: String(x[0] || ''), 상품: String(x[1] || ''), \ubcf4\ud5d8료: parseInt(x[2], 10) || 0, 보장: String(x[3] || ''), \uac31\uc2e0: String(x[4] || ''), 메모: String(x[5] || ''), 판정: String(x[6] || ''), 바꿈: f.indexOf('b') >= 0, 은퇴: f.indexOf('r') >= 0, 최근: f.indexOf('n') >= 0 }; }) };
+}
+function 풀기(해시) { try { var s = (해시 || '').replace(/^#/, ''); if (!s) return null; return 손질(JSON.parse(new TextDecoder('utf-8').decode(바이트(s)))); } catch (e) { return null; } }
 function 풀기압축(해시) {
-  var st = new Blob([바이트(해시.replace(/^#z\./, ''))]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  var st = new Blob([바이트(해시.replace(/^#z[.]/, ''))]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
   return new Response(st).text().then(function (t) { return 손질(JSON.parse(t)); });
 }
-/* 짧은 링크: 서버에는 암호문만 있고, 푸는 열쇠는 주소의 # 뒤에만 있다(# 뒤는 서버로 가지 않는다). */
+/* 짧은 링크: 서버에는 암호문만 있고, 푸는 열쇠는 주소의 # 뒤에만 있다. */
 function 풀기암호(이름, 열쇠) {
   return fetch('d/' + 이름, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw 0; return r.arrayBuffer(); }).then(function (buf) {
     var b = new Uint8Array(buf);
     return crypto.subtle.importKey('raw', 바이트(열쇠), 'AES-GCM', false, ['decrypt']).then(function (k) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, k, b.slice(12)); });
   }).then(function (pt) { return 손질(JSON.parse(new TextDecoder('utf-8').decode(pt))); });
 }
-function 손질(d, 번호) {
-  if (!d || !Array.isArray(d.i)) return null;
-  return { 번호: String(번호 || d.t || '').replace(/[^0-9]/g, '').slice(0, 11),
-           목록: d.i.slice(0, 20).map(function (x) { return { 회사: String(x[0] || ''), 상품: String(x[1] || ''), \ubcf4\ud5d8료: parseInt(x[2], 10) || 0, 보장: String(x[3] || ''), \uac31\uc2e0: String(x[4] || ''), 메모: String(x[5] || ''), 판정: String(x[6] || '') }; }) };
-}
 function 원(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원'; }
-function 글만들기(목록, 답, 하실말) {
-  var 줄 = ['[\uac31\uc2e0형 \ubcf4\ud5d8 의견]'];
-  목록.forEach(function (x, k) {
-    var a = 답[k] || {}; if (a.고름 === undefined) return;
-    var t = (k + 1) + ' ' + x.회사 + ' ' + x.상품 + ' ' + 원(x.\ubcf4\ud5d8료) + ': ' + 짧은선택[a.고름];
+function 셈(D, 답) {
+  var 모은 = D.목록.reduce(function (s, x) { return s + x.\ubcf4\ud5d8료; }, 0), 지금 = D.총 || 모은, 줄 = 0, 바꿈 = 0, 은퇴줄 = 0, 고른 = 0;
+  D.목록.forEach(function (x, k) { var a = 답[k] || {}; if (a.고름 !== undefined) 고른++; if (a.고름 === 1) { 줄 += x.\ubcf4\ud5d8료; if (x.바꿈) 바꿈 += x.\ubcf4\ud5d8료; if (x.은퇴) 은퇴줄 += x.\ubcf4\ud5d8료; } });
+  return { 지금: 지금, 뒤: 지금 - 줄, 줄: 줄, 바꿈: 바꿈, 은퇴전: D.은퇴뒤, 은퇴뒤: D.은퇴뒤 ? D.은퇴뒤 - 은퇴줄 : 0, 고른: 고른 };
+}
+function 글만들기(D, 답, 끝답) {
+  var c = 셈(D, 답), 줄 = ['[\ubcf4\ud5d8 점검 의견]'];
+  D.목록.forEach(function (x, k) {
+    var a = 답[k] || {}; if (a.고름 === undefined && !a.경위) return;
+    var t = (k + 1) + ' ' + x.회사 + ' ' + x.상품 + ' ' + 원(x.\ubcf4\ud5d8료) + ': ' + (a.고름 === undefined ? '고르지 않음' : 짧은선택[a.고름]);
     var 이유 = (a.이유 || []).slice(); if (a.글 && a.글.trim()) 이유.push(a.글.trim());
     if (이유.length) t += ' - ' + 이유.join(', ');
+    if (a.경위) t += ' [가입 ' + a.경위 + ']';
     줄.push(t);
   });
-  if (하실말 && 하실말.trim()) 줄.push('하실 말씀: ' + 하실말.trim());
+  if (c.줄) 줄.push('고르신 대로면: 매달 ' + 원(c.지금) + ' → ' + 원(c.뒤) + (c.바꿈 ? ' (이 중 바꾸는 것 ' + 원(c.바꿈) + ')' : ''));
+  끝답 = 끝답 || {};
+  if ((끝답.채울 || []).length) 줄.push('채우고 싶은 곳: ' + 끝답.채울.join(', '));
+  if (끝답.예산) 줄.push('새로 넣는 데: ' + 끝답.예산);
+  if (끝답.말 && 끝답.말.trim()) 줄.push('하실 말씀: ' + 끝답.말.trim());
   return 줄.join('\n');
 }
 function 문자주소(번호, 글, ua) { return 'sms:' + 번호 + (/iPhone|iPad|iPod|Macintosh/.test(ua || '') ? '&' : '?') + 'body=' + encodeURIComponent(글); }
 function 안전(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
 if (typeof document !== 'undefined') (function () {
-  var app = document.getElementById('app'), D = /[?&]d=/.test(location.search) ? null : 풀기(location.hash), 답 = [], 하실말 = '';
+  var app = document.getElementById('app'), bar = document.getElementById('bar'), D = null, 답 = [], 끝답 = { 채울: [] };
   function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
   var 잠금 = /[?&]d=([A-Za-z0-9]{4,20})(&|$)/.exec(location.search);
-  if (잠금) {
-    풀기암호(잠금[1], location.hash.replace(/^#/, '')).then(function (d) { D = d; 그리기(); }).catch(function () { D = null; 그리기(); });
-  } else if (/^#z\./.test(location.hash)) {
-    if (typeof DecompressionStream !== 'function') 그리기();
-    else 풀기압축(location.hash).then(function (d) { D = d; 그리기(); }).catch(function () { D = null; 그리기(); });
-  } else 그리기();
+  function 받음(d) { D = d; 그리기(); } function 못받음() { D = null; 그리기(); }
+  if (잠금) 풀기암호(잠금[1], location.hash.replace(/^#/, '')).then(받음).catch(못받음);
+  else if (/^#z[.]/.test(location.hash)) { if (typeof DecompressionStream !== 'function') 못받음(); else 풀기압축(location.hash).then(받음).catch(못받음); }
+  else 받음(풀기(location.hash));
+
   function 그리기() {
-  if (!D || !D.목록.length) { app.appendChild(el('section', 'empty', '\ubcf4\ud5d8 목록을 불러오지 못했습니다.<br>받으신 문자의 링크를 끝까지 눌러 다시 열어 주세요.')); return; }
-  var 합 = D.목록.reduce(function (s, x) { return s + x.\ubcf4\ud5d8료; }, 0);
-  app.appendChild(el('section', 'sum', '\uac31\uc2e0형으로 내고 계신 돈은 매달 <b>' + 원(합) + '</b>, 한 해 ' + 원(합 * 12) + '입니다. (' + D.목록.length + '건)'));
+  if (!D || !D.목록.length) { bar.style.display = 'none'; app.appendChild(el('section', 'empty', '내용을 불러오지 못했습니다.<br>받으신 문자의 링크를 끝까지 눌러 다시 열어 주세요.')); return; }
   function 단추(글들, 넓게, 누르면) {
     var box = el('div', 'opts' + (넓게 ? ' wide' : ''));
     글들.forEach(function (g, i) { var bt = el('button', '', g); bt.type = 'button'; bt.setAttribute('aria-pressed', 'false'); bt.addEventListener('click', function () { 누르면(i, box); \uac31\uc2e0(); }); box.appendChild(bt); });
@@ -137,7 +148,7 @@ if (typeof document !== 'undefined') (function () {
     sec.appendChild(el('div', 'fact', '<span>매달 내는 돈</span><span class="big">' + 원(x.\ubcf4\ud5d8료) + '</span>'));
     sec.appendChild(el('div', 'fact', '<span>한 해로는</span><span>' + 원(x.\ubcf4\ud5d8료 * 12) + '</span>'));
     if (x.보장) sec.appendChild(el('div', 'fact', '<span>받는 보장</span><span>' + 안전(x.보장) + '</span>'));
-    if (x.\uac31\uc2e0) sec.appendChild(el('div', 'fact', '<span>\uac31\uc2e0</span><span>' + 안전(x.\uac31\uc2e0) + '</span>'));
+    if (x.\uac31\uc2e0) sec.appendChild(el('div', 'fact', '<span>언제까지</span><span>' + 안전(x.\uac31\uc2e0) + '</span>'));
     if (x.메모) { var 색 = /불필요/.test(x.판정) ? 'r' : /유지/.test(x.판정) ? 'g' : 'y';
       sec.appendChild(el('div', 'memo', '<div class="who">담당 \uc124\uacc4\uc0ac 의견' + (x.판정 ? '<span class="chip ' + 색 + '">' + 안전(x.판정) + '</span>' : '') + '</div>' + 안전(x.메모))); }
     sec.appendChild(el('div', 'ask', x.메모 ? '고객님 생각은 어떠세요?' : '이 \ubcf4\ud5d8, 어떻게 하고 싶으세요?'));
@@ -152,10 +163,25 @@ if (typeof document !== 'undefined') (function () {
       라벨.textContent = a.고름 === 0 ? '유지하고 싶으신 이유를 알려 주세요 (여러 개 가능)' : a.고름 === 1 ? '정리하고 싶으신 이유가 있으면 적어 주세요' : '궁금하신 점을 적어 주세요';
       글칸.placeholder = a.고름 === 0 ? '그 밖의 이유' : '적지 않으셔도 됩니다';
     }));
-    sec.appendChild(more); app.appendChild(sec);
+    sec.appendChild(more);
+    if (x.최근) { sec.appendChild(el('div', 'ask2', '이 \ubcf4\ud5d8은 어떻게 드시게 됐어요?')); sec.appendChild(단추(가입경위, false, function (i, box) { a.경위 = a.경위 === 가입경위[i] ? '' : 가입경위[i]; 칠(box, function (j) { return a.경위 === 가입경위[j]; }); })); }
+    app.appendChild(sec);
   });
+  var 채움 = el('section', 'fill2');
+  채움.appendChild(el('div', 'nm', '아낀 돈으로 무엇부터 채우고 싶으세요?'));
+  채움.appendChild(el('div', 'co', '지금 \ubcf4\ud5d8에서 얇거나 비어 있는 곳입니다. 여러 개 고르셔도 됩니다.'));
+  var 마지막 = D.채울곳[D.채울곳.length - 1];
+  채움.appendChild(단추(D.채울곳, true, function (i, box) {
+    var o = D.채울곳[i], L = 끝답.채울, p = L.indexOf(o);
+    if (p >= 0) L.splice(p, 1); else if (o === 마지막) 끝답.채울 = [o]; else { 끝답.채울 = L.filter(function (v) { return v !== 마지막; }); 끝답.채울.push(o); }
+    칠(box, function (j) { return 끝답.채울.indexOf(D.채울곳[j]) >= 0; });
+  }));
+  채움.appendChild(el('div', 'ask', '새로 넣는 데 매달 얼마까지 괜찮으세요?'));
+  채움.appendChild(단추(예산, false, function (i, box) { 끝답.예산 = 끝답.예산 === 예산[i] ? '' : 예산[i]; 칠(box, function (j) { return 끝답.예산 === 예산[j]; }); }));
+  app.appendChild(채움);
+
   var end = el('section'); end.appendChild(el('div', 'nm', '보내기'));
-  var ta = el('textarea'); ta.placeholder = '더 하실 말씀 (적지 않으셔도 됩니다)'; ta.style.marginTop = '0'; ta.addEventListener('input', function () { 하실말 = ta.value; \uac31\uc2e0(); }); end.appendChild(ta);
+  var ta = el('textarea'); ta.placeholder = '더 하실 말씀 (적지 않으셔도 됩니다)'; ta.style.marginTop = '0'; ta.addEventListener('input', function () { 끝답.말 = ta.value; \uac31\uc2e0(); }); end.appendChild(ta);
   var warn = el('p', 'warn', ''); warn.style.marginTop = '10px'; end.appendChild(warn);
   var pre = el('pre'); pre.style.marginTop = '10px'; end.appendChild(pre);
   var done = el('p', 'done', '복사했습니다. 문자나 카카오톡에 붙여 넣어 보내 주세요.'); end.appendChild(done);
@@ -164,12 +190,20 @@ if (typeof document !== 'undefined') (function () {
   end.appendChild(b1); end.appendChild(b2);
   end.appendChild(el('p', 'note', '「문자로 보내기」를 누르면 휴대폰의 문자 화면이 열리고 내용이 채워집니다. 확인하신 뒤 전송을 눌러 주세요. 여기서 고르신 것만으로 \ubcf4\ud5d8이 바뀌지는 않습니다. 상담 때 참고합니다.'));
   app.appendChild(end);
-  function 센() { return 답.filter(function (a) { return a.고름 !== undefined; }).length; }
-  function \uac31\uc2e0() { var n = 센(); document.getElementById('cnt').textContent = n + ' / ' + D.목록.length; document.getElementById('fill').style.width = (n / D.목록.length * 100) + '%'; pre.textContent = 글만들기(D.목록, 답, 하실말); }
-  function 확인() { if (!센()) { warn.textContent = '하나 이상 골라 주세요.'; warn.style.display = 'block'; return false; } warn.style.display = 'none'; pre.style.display = 'block'; return true; }
-  b1.addEventListener('click', function () { if (확인()) location.href = 문자주소(D.번호, 글만들기(D.목록, 답, 하실말), navigator.userAgent); });
+  function \uac31\uc2e0() {
+    var c = 셈(D, 답), h = '<div class="r"><span>지금 매달</span><b>' + 원(c.지금) + '</b></div>'
+      + '<div class="r big"><span>고르신 대로면</span><b>' + 원(c.뒤) + '</b></div>';
+    var 덧 = [];
+    if (c.줄) 덧.push('매달 <b>' + 원(c.줄) + '</b> 줄어듭니다');
+    if (c.은퇴전) 덧.push((D.은퇴나이 || '은퇴') + ' 이후에는 ' + 원(c.은퇴전) + (c.은퇴뒤 !== c.은퇴전 ? ' → <b>' + 원(c.은퇴뒤) + '</b>' : ''));
+    if (덧.length) h += '<div class="sub">' + 덧.join(' · ') + '</div>';
+    if (c.바꿈) h += '<div class="sub">이 중 ' + 원(c.바꿈) + '은 새 보장으로 바꾸는 돈이라, 새 \ubcf4\ud5d8료가 견적 뒤에 더해집니다.</div>';
+    bar.innerHTML = h; pre.textContent = 글만들기(D, 답, 끝답);
+  }
+  function 확인() { if (!셈(D, 답).고른) { warn.textContent = '하나 이상 골라 주세요.'; warn.style.display = 'block'; return false; } warn.style.display = 'none'; pre.style.display = 'block'; return true; }
+  b1.addEventListener('click', function () { if (확인()) location.href = 문자주소(D.번호, 글만들기(D, 답, 끝답), navigator.userAgent); });
   b2.addEventListener('click', function () {
-    if (!확인()) return; var t = 글만들기(D.목록, 답, 하실말);
+    if (!확인()) return; var t = 글만들기(D, 답, 끝답);
     function 끝() { done.style.display = 'block'; }
     function 옛() { var x = el('textarea'); x.value = t; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); 끝(); } catch (e) {} document.body.removeChild(x); }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(끝, 옛); else 옛();
@@ -177,14 +211,14 @@ if (typeof document !== 'undefined') (function () {
   \uac31\uc2e0();
   if (/[?&]img=1/.test(location.search)) {
     document.body.className = 'img';
-    document.querySelector('header p').innerHTML = '지금 내고 계신 것 가운데 <b>\uac31\uc2e0 때마다 \ubcf4\ud5d8료가 다시 정해지는 것</b>만 모았습니다. 하나씩 보시고 생각을 알려 주세요. 제 의견과 달라도 괜찮습니다.';
+    document.querySelector('header p').innerHTML = '살펴본 결과를 하나씩 정리했습니다. 보시고 생각을 알려 주세요. 제 의견과 달라도 괜찮습니다.';
     end.innerHTML = '<div class="nm">답하시는 법</div><div style="font-size:15.5px;line-height:1.75">문자로 <b>번호와 함께</b> 생각을 보내 주세요.<br><b>예) 1 유지 · 2 정리 · 3 모르겠음</b><br>이유도 한마디 적어 주시면 상담에 큰 도움이 됩니다.</div>';
-    var 자리 = []; Array.prototype.forEach.call(document.querySelectorAll('main > section'), function (x) { 자리.push(Math.round(x.getBoundingClientRect().top + window.scrollY)); 자리.push(Math.round(x.getBoundingClientRect().bottom + window.scrollY)); });
+    var 자리 = []; Array.prototype.forEach.call(document.querySelectorAll('main > section'), function (x) { if (x.className === 'fill2') return; 자리.push(Math.round(x.getBoundingClientRect().top + window.scrollY)); 자리.push(Math.round(x.getBoundingClientRect().bottom + window.scrollY)); });
     document.title = 'H' + document.documentElement.scrollHeight + ':' + 자리.join(',');
   }
   }
 })();
-if (typeof module !== 'undefined') module.exports = { 풀기: 풀기, 손질: 손질, 글만들기: 글만들기, 문자주소: 문자주소 };
+if (typeof module !== 'undefined') module.exports = { 풀기: 풀기, 손질: 손질, 셈: 셈, 글만들기: 글만들기, 문자주소: 문자주소 };
 </script>
 </body>
 </html>
